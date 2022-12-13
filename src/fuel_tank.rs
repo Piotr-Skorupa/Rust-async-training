@@ -1,4 +1,3 @@
-
 #[derive(Debug)]
 pub struct FuelTank {
     capacity_: i32,
