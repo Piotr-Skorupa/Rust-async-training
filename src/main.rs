@@ -1,16 +1,19 @@
 use std::sync::{ Arc, Mutex };
 use engine::Engine;
 use fuel_tank::FuelTank;
+use refiller::Refiller;
 use tokio::task::JoinError;
 
 mod engine;
 mod fuel_tank;
+mod refiller;
 
 #[tokio::main]
 async fn main() -> Result<(), JoinError> {
     println!("Filling the fuel tank...");
 
-    let tank = Arc::new(Mutex::new(FuelTank::default()));
+    let tank = Arc::new(Mutex::new(FuelTank::new(100)));
+    let refiller = Refiller::new(1000, &tank);
     let small_engine = Engine::new("Small".to_owned(), 9, &tank);
     let big_engine = Engine::new("Big".to_owned(), 15, &tank);
 
